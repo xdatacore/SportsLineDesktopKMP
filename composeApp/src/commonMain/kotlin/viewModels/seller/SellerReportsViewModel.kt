@@ -3,6 +3,7 @@ package viewModels.seller
 import interfaces.PersistenceManager
 import kotlinx.datetime.toLocalDate
 import models.DetalleFactura
+import models.DetalleOC
 import models.EncabezadoFactura
 import org.koin.core.component.KoinComponent
 import providePersistenceManager
@@ -12,6 +13,9 @@ class SellerReportsViewModel : KoinComponent {
         providePersistenceManager(DetalleFactura::class)
     private val encabezadoFacturaManager: PersistenceManager<EncabezadoFactura> =
         providePersistenceManager(EncabezadoFactura::class)
+
+    private val detalleOCManager: PersistenceManager<DetalleOC> =
+        providePersistenceManager(DetalleOC::class)
 
     fun getSalesReportByDate(startDate: String, endDate: String): List<String> {
         val start = startDate.toLocalDate()
@@ -32,7 +36,7 @@ class SellerReportsViewModel : KoinComponent {
 
     fun getPurchaseReport(): List<String> {
         val compras =
-            detalleFacturaManager.readAll()  // Assuming this method exists in your PersistenceManager
-        return compras.map { "Producto: ${it.codProducto}, Cantidad: ${it.cantidad}, Número de Factura: ${it.numFactura}" }
+            detalleOCManager.readAll()
+        return compras.map { "Producto: ${it.codProducto}, Cantidad: ${it.cantidad}, Número de Factura: ${it.numOC}" }
     }
 }
